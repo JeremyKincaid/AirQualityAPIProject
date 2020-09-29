@@ -3,7 +3,7 @@
 }
 
 body {
-    background-color: #212529;
+    background-color: #8cb6e0;
 }
 
 h1 {
@@ -27,9 +27,8 @@ select {
 }
 
 .col-lg-5, .col-lg-11 {
-    border: 2px solid#212529;
     margin: 1em;
-    border-radius: 1rem;
+    border-radius: .35rem;
     box-shadow: 0 0 .3em;
     background-color: white;
     
@@ -37,4 +36,5 @@ select {
 
 #infoPanel {
     transition: opacity 1s;
+    text-align: center;
 }

@@ -5,12 +5,16 @@ let coords;
 
 const locDisplay = document.getElementById('location');
 const wthrIcon = document.getElementById('wthrIcon');
+const wthrTxt = document.getElementById('wthrTxt');
 const geoBtn = document.getElementById('geoBtn');
 const countrySelect = document.getElementById('country');
 const stateSelect = document.getElementById('state');
 const citySelect = document.getElementById('city');
 const searchForm = document.querySelector('form');
-let infoPanel = document.getElementById('infoPanel');
+const infoPanel = document.getElementById('infoPanel');
+const polLvl = document.getElementById('polLvl');
+const mainPol = document.getElementById('mainPol');
+const airRating = document.getElementById('airRating');
 
 infoPanel.style.opacity = "0";
 
@@ -75,25 +79,33 @@ function displayInfo(json) {
     infoPanel.style.opacity = 0;
     locDisplay.textContent = "closest location: " + json.data.city + ', ' + json.data.state + ' ' + json.data.country;
 
-    setIcon(json);
+    setWeather(json);
+
+    polLvl.textContent = `AQI: ${json.data.current.pollution.aqius}`;
+    mainPol.textContent = `Main pollutant: ${json.data.current.pollution.mainus}`;
+
+    setRating(json);
 
     infoPanel.style.opacity = 1;
 }
 
-// set weather Icon according to API code
-function setIcon(json) {
-    json.data.current.weather.ic == '01d' ? wthrIcon.setAttribute('class', 'fas fa-sun fa-10x') :
-    json.data.current.weather.ic == '01n' ? wthrIcon.setAttribute('class', 'fas fa-moon fa-10x') :
-    json.data.current.weather.ic == '02d' ? wthrIcon.setAttribute('class', 'fas fa-cloud-sun fa-10x') :
-    json.data.current.weather.ic == '02n' ? wthrIcon.setAttribute('class', 'fas fa-cloud-moon fa-10x') :
-    json.data.current.weather.ic == '03d' || json.data.current.weather.ic == '03n' || json.data.current.weather.ic == '04d' || json.data.current.weather.ic == '04n' ? wthrIcon.setAttribute('class', 'fas fa-cloud fa-10x') :
-    json.data.current.weather.ic == '09d' ? wthrIcon.setAttribute('class', 'fas fa-cloud-showers-heavy fa-10x') :
-    json.data.current.weather.ic == '10d' ? wthrIcon.setAttribute('class', 'fas fa-cloud-sun-rain fa-10x') :
-    json.data.current.weather.ic == '10n' ? wthrIcon.setAttribute('class', 'fas fa-cloud-moon-rain fa-10x') :
-    json.data.current.weather.ic == '11d' ? wthrIcon.setAttribute('class', 'fas fa-bolt fa-10x') :
-    json.data.current.weather.ic == '13d' ? wthrIcon.setAttribute('class', 'fas fa-snowflake fa-10x') :
-    json.data.current.weather.ic == '50d' ? wthrIcon.setAttribute('class', 'fas fa-smog fa-10x') :
-    wthrIcon.setAttribute('class', 'fas fa-aviato fa-10x');
+// set weather info according to API
+function setWeather(json) {
+    let weather;
+    json.data.current.weather.ic == '01d' ? (wthrIcon.setAttribute('class', 'fas fa-sun fa-10x'), weather = 'Clear') :
+    json.data.current.weather.ic == '01n' ? (wthrIcon.setAttribute('class', 'fas fa-moon fa-10x'), weather = 'Clear') :
+    json.data.current.weather.ic == '02d' ? (wthrIcon.setAttribute('class', 'fas fa-cloud-sun fa-10x'), weather = 'Few clouds') :
+    json.data.current.weather.ic == '02n' ? (wthrIcon.setAttribute('class', 'fas fa-cloud-moon fa-10x'), weather = 'Few clouds') :
+    json.data.current.weather.ic == '03d' || json.data.current.weather.ic == '03n' || json.data.current.weather.ic == '04d' || json.data.current.weather.ic == '04n' ? (wthrIcon.setAttribute('class', 'fas fa-cloud fa-10x'), weather = 'Cloudy') :
+    json.data.current.weather.ic == '09d' ? (wthrIcon.setAttribute('class', 'fas fa-cloud-showers-heavy fa-10x'), weather = 'Rain') :
+    json.data.current.weather.ic == '10d' ? (wthrIcon.setAttribute('class', 'fas fa-cloud-sun-rain fa-10x'), weather = 'Scattered Showers') :
+    json.data.current.weather.ic == '10n' ? (wthrIcon.setAttribute('class', 'fas fa-cloud-moon-rain fa-10x'), weather = 'Scattered Showers') :
+    json.data.current.weather.ic == '11d' ? (wthrIcon.setAttribute('class', 'fas fa-bolt fa-10x'), weather = 'Thunderstorms') :
+    json.data.current.weather.ic == '13d' ? (wthrIcon.setAttribute('class', 'fas fa-snowflake fa-10x'), weather = 'Snow') :
+    json.data.current.weather.ic == '50d' ? (wthrIcon.setAttribute('class', 'fas fa-smog fa-10x'), weather = 'Fog') :
+    (wthrIcon.setAttribute('class', 'fas fa-aviato fa-10x'), weather = 'Aviato');
+
+    wthrTxt.textContent = weather;
 }
 
 // get list of compatible countries from API
@@ -234,15 +246,13 @@ function getInfoByCity(e) {
         })
 }
 
-function fadeIn(element) {
-    var op = 0.1;  // initial opacity
-    element.style.display = 'block';
-    var timer = setInterval(function () {
-        if (op >= 1){
-            clearInterval(timer);
-        }
-        element.style.opacity = op;
-        element.style.filter = 'alpha(opacity=' + op * 100 + ")";
-        op += op * 0.1;
-    }, 10);
+function setRating(json){
+    let aqi = json.data.current.pollution.aqius;
+
+    aqi <= 50 ? airRating.textContent = "Good" :
+    aqi > 50 && aqi <= 100 ? airRating.textContent = "Moderate" :
+    aqi > 100 && aqi <= 150 ? airRating.textContent = "Unhealthy for Sensitive Groups" :
+    aqi > 150 && aqi <= 200 ? airRating.textContent = "Unhealthy" :
+    aqi > 200 && aqi <= 300 ? airRating.textContent = "Very Unhealthy" :
+    airRating.textContent = "Hazardous"
 }
