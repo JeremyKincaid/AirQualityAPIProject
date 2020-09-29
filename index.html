@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Istok+Web&family=Source+Sans+Pro&display=swap"
+        rel="stylesheet">
+    <link ref="text/css" rel="stylesheet" href="main.css">
+    <script src="https://kit.fontawesome.com/a206752244.js" crossorigin="anonymous"></script>
+    <title>Air Quality</title>
+</head>
+
+<body>
+    <div class="container main">
+        <div class="row justify-content-around">
+            <div class="col-lg-5"><h1>Air Quality</h1>
+                <h3>Find out how good your air is</h3>
+            </div>
+            <div class="col-lg-5">
+                <form>
+                    <h3>Choose a location:</h3>
+                    <select id="country" class="custom-select">
+                        <option selected>Choose a country</option>
+                    </select>
+                    <select id="state" class="custom-select" disabled>
+                        <option selected>Choose a state</option>
+                    </select>
+                    <select id="city" class="custom-select" disabled>
+                        <option selected>Choose a city</option>
+                    </select>
+                    <button class="btn submit">submit</button>
+                </form>
+                <h3>OR</h3>
+                <button class="btn" id="geoBtn"><i class="fas fa-compass"></i> Use my location</button>
+
+            </div>
+        </div>
+        <div class="row  justify-content-center">
+            <div class="col-lg-11" id='infoPanel'>
+                <h3 id="location">Closest location:</h3>
+                <div class="row justify-content-around">
+                    <div class="col-lg-5"><i id="wthrIcon"></i></div>
+                    <div class="col-lg-5"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="script.js"></script>
+
+</html>
