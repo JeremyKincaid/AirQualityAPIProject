@@ -38,3 +38,14 @@ select {
     transition: opacity 1s;
     text-align: center;
 }
+
+.info {
+    border-radius: .35rem;
+    box-shadow: 0 0 .3em;
+    margin: 1em;
+    background-color: white;
+}
+
+.aqiColor {
+    transition: background-color 1s;
+}

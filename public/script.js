@@ -15,6 +15,7 @@ const infoPanel = document.getElementById('infoPanel');
 const polLvl = document.getElementById('polLvl');
 const mainPol = document.getElementById('mainPol');
 const airRating = document.getElementById('airRating');
+const aqiColor = document.querySelector('.aqiColor')
 
 infoPanel.style.opacity = "0";
 
@@ -81,7 +82,7 @@ function displayInfo(json) {
 
     setWeather(json);
 
-    polLvl.textContent = `AQI: ${json.data.current.pollution.aqius}`;
+    polLvl.textContent = `Air Quality Index: ${json.data.current.pollution.aqius}`;
     mainPol.textContent = `Main pollutant: ${json.data.current.pollution.mainus}`;
 
     setRating(json);
@@ -249,10 +250,10 @@ function getInfoByCity(e) {
 function setRating(json){
     let aqi = json.data.current.pollution.aqius;
 
-    aqi <= 50 ? airRating.textContent = "Good" :
-    aqi > 50 && aqi <= 100 ? airRating.textContent = "Moderate" :
-    aqi > 100 && aqi <= 150 ? airRating.textContent = "Unhealthy for Sensitive Groups" :
-    aqi > 150 && aqi <= 200 ? airRating.textContent = "Unhealthy" :
-    aqi > 200 && aqi <= 300 ? airRating.textContent = "Very Unhealthy" :
-    airRating.textContent = "Hazardous"
+    aqi <= 50 ? (airRating.textContent = "Good", aqiColor.style.backgroundColor = "#40f55b") :
+    aqi > 50 && aqi <= 100 ? (airRating.textContent = "Moderate", aqiColor.style.backgroundColor = "#e6f74a") :
+    aqi > 100 && aqi <= 150 ? (airRating.textContent = "Unhealthy for Sensitive Groups", aqiColor.style.backgroundColor = '#f7c034') :
+    aqi > 150 && aqi <= 200 ? (airRating.textContent = "Unhealthy", aqiColor.style.backgroundColor = '#f78534') :
+    aqi > 200 && aqi <= 300 ? (airRating.textContent = "Very Unhealthy", aqiColor.style.backgroundColor = '#f75b34') :
+    (airRating.textContent = "Hazardous", aqiColor.style.backgroundColor = "#f52525");
 }
