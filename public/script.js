@@ -1,5 +1,5 @@
 const key = "3965ee9f-3e55-4b74-83cc-dab3874fb6dc";
-const baseURL = "http://api.airvisual.com/v2/";
+const baseURL = "https://api.airvisual.com/v2/";
 
 let coords;
 
@@ -15,12 +15,9 @@ const infoPanel = document.getElementById('infoPanel');
 const polLvl = document.getElementById('polLvl');
 const mainPol = document.getElementById('mainPol');
 const airRating = document.getElementById('airRating');
-const aqiColor = document.querySelector('.aqiColor')
-
-infoPanel.style.opacity = "0";
+const aqiColor = document.querySelector('.aqiColor');
 
 geoBtn.addEventListener('click', getInfoByCoords);
-
 
 countrySelect.addEventListener('change', getStates);
 stateSelect.addEventListener('change', getCities);
@@ -102,9 +99,9 @@ function setWeather(json) {
     json.data.current.weather.ic == '10d' ? (wthrIcon.setAttribute('class', 'fas fa-cloud-sun-rain fa-10x'), weather = 'Scattered Showers') :
     json.data.current.weather.ic == '10n' ? (wthrIcon.setAttribute('class', 'fas fa-cloud-moon-rain fa-10x'), weather = 'Scattered Showers') :
     json.data.current.weather.ic == '11d' ? (wthrIcon.setAttribute('class', 'fas fa-bolt fa-10x'), weather = 'Thunderstorms') :
-    json.data.current.weather.ic == '13d' ? (wthrIcon.setAttribute('class', 'fas fa-snowflake fa-10x'), weather = 'Snow') :
-    json.data.current.weather.ic == '50d' ? (wthrIcon.setAttribute('class', 'fas fa-smog fa-10x'), weather = 'Fog') :
-    (wthrIcon.setAttribute('class', 'fas fa-aviato fa-10x'), weather = 'Aviato');
+    json.data.current.weather.ic == '13d' || json.data.current.weather.ic == '13n' ? (wthrIcon.setAttribute('class', 'fas fa-snowflake fa-10x'), weather = 'Snow') :
+    json.data.current.weather.ic == '50d' || json.data.current.weather.ic == '50n' ? (wthrIcon.setAttribute('class', 'fas fa-smog fa-10x'), weather = 'Fog') :
+    (wthrIcon.setAttribute('class', 'fab fa-aviato fa-10x'), weather = 'Aviato');
 
     wthrTxt.textContent = weather;
 }
@@ -145,7 +142,7 @@ function fillCountries(json) {
 
 function getStates(e) {
     e.preventDefault();
-    let stateURL = baseURL + 'states?country=' + countrySelect.value + '&key=' + key;
+    let stateURL = baseURL + 'states?country=' + countrySelect.value.replace('%20', ' ') + '&key=' + key;
 
     console.log('URL:', stateURL);
 
